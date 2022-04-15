@@ -1,0 +1,24 @@
+problemas classicos que podem acontecer quando se trabalha com  avaliação de algoritmos
+na área de mineração de dados e aprendizado de maquinas.
+
+Underfitting:
+
+    problema grande, complexo e subestimado
+
+    -: Resultados ruins na base de treinamento
+    
+
+Overfitting:
+
+    problema pequeno e superestimado.
+    criar uma solução complexa demais e por sua vez vicia o algoritmo nos dados existentes,
+    dificultando assim a acuracia em sua aplicação.
+
+    -: Resultados bons na base de treinamento
+    -: Resultados ruins na base de teste
+    -: Muito específico
+    -: Memorização
+    -: Erros na variação de novas instâncias
+
+modelo ideial -:  problemas complexos use soluções complexas, problemas não complexos,
+                  soluções não complexas.

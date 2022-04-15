@@ -1,0 +1,5 @@
+{'activation': 'tanh', 'batch_size': 10, 'epochs': 100, 'kernel_initializer': 'random_uniform', 'loss': 'categorical_crossentropy', 'neurons': 8, 'optimizer': 'adam'}, 0.9333333333333333
+
+{'activation': 'selu', 'batch_size': 10, 'epochs': 200, 'kernel_initializer': 'normal', 'loss': 'categorical_crossentropy', 'neurons': 4, 'optimizer': 'adam'}, 0.9533333333333334
+
+{activation: relu, batch_size: 5, epochs: 300, kernel_initializer: random_uniform, loss: categorical_crossentropy, neurons: 8, optimizer: adam}, 0.96
