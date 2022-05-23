@@ -1,0 +1,29 @@
+# não será mais um model sequential, será utilizado outros recursos do keras,
+# parar tornar mais robusto a rede neural, que possa ter maior controlo sobre as camadas
+
+# criação da camada de entrada
+        camada_entrada = Input(shape=(61,))
+# criação da primeira camada oculta, e é definido depois de qual camada ela virá
+# o mesmo é feito com os posteriores
+# foi usada o sigmoid pois o resultado foi melhor com ele em comparação com a relu
+# e foi usado linear, pois queremos manter os valores 
+# como temos 3 saidas teremos 3 camadas de saida
+        camada_oculta1 = Dense(units = 32, activation = 'sigmoid')(camada_entrada)
+        camada_oculta2 = Dense(units = 32, activation = 'sigmoid')(camada_oculta1)
+        camada_saida1 = Dense(units = 1, activation = 'linear')(camada_oculta2)
+        camada_saida2 = Dense(units = 1, activation = 'linear')(camada_saida1)
+        camada_saida3 = Dense(units = 1, activation = 'linear')(camada_saida2)
+
+# definimos o input e o output, cada camada
+        regressor = Model(inputs = camada_entrada,
+                        outputs = [camada_saida1, camada_saida2, camada_saida3])
+# fazemos um compile normal, usando o mean_squared_error
+# pois ele fazer o somatório do quadrado, assim penalizando mais os erros                        
+        regressor.compile(optimizer= 'adam',
+                        loss = 'mse')
+# faremos aqui o treinamento, passando os previsores, e os objetivos ou valores observados                        
+        regressor.fit(previsores, [venda_na, venda_eu, venda_jp],
+                    epochs= 5000, batch_size = 100)
+
+# comparativo dos valores 
+        previsao_na, previsao_eu, previsao_jp = regressor.predict(previsores)

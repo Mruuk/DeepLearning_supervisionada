@@ -1,0 +1,16 @@
+# separamos os previsores dos objetivos, criamos uma variavel para cada um deles
+        previsores = base.iloc[:, [0,1,2,3,7,8,9,10,11]].values
+        venda_na = base.iloc[:, 4].values
+        venda_eu = base.iloc[:, 5].values
+        venda_jp = base.iloc[:, 6].values
+
+# fizemos a transformação de categoricos para numéricos
+# depois fizemos o pré-processamento do OneHotEncoder
+# EX: soccer -: 0 0 1; racer -: 0 1 0; adventure -: 1 0 0
+        from sklearn.preprocessing import OneHotEncoder
+        from sklearn.compose import ColumnTransformer
+
+        onehotencorder = ColumnTransformer(transformers=[("OneHot", OneHotEncoder(),
+                                                        [0,2,3,8])],
+                                        remainder='passthrough')
+        previsores = onehotencorder.fit_transform(previsores).toarray()

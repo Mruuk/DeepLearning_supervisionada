@@ -1,0 +1,44 @@
+
+
+
+
+
+
+DOCUMENTAÇÃO -:
+
+        método mean_absolute_error foi substituido por neg_mean_absolute_error
+        motivo: DeprecationWarning: O método de pontuação mean_squared_error foi renomeado para neg_mean_squared_error na versão 0.18 e será removido em 0.20.
+
+        Fonte consultada:
+
+        https://stackoverflow.com/questions/24132237/scikit-learn-cross-validation-scoring-for-regression
+
+        Para saber mais sobre o assunto:
+
+        https://scikit-learn.org/dev/modules/model_evaluation.html
+
+        https://www.statisticshowto.datasciencecentral.com/mean-squared-error/
+
+
+---------------------------------------------------------------------------------------------------
+
+CODIGO -:
+
+        def criar_rede():
+            regressor = Sequential()
+            regressor.add(Dense(units= 158, activation= 'relu', input_dim= 316))
+            regressor.add(Dense(units= 158, activation= 'relu'))
+            regressor.add(Dense(units= 1, activation= 'linear'))
+            regressor.compile(loss= 'mean_absolute_error', optimizer= 'adam',
+                            metrics=['mean_absolute_error'])
+            return regressor
+
+        regressor = KerasRegressor(build_fn= criar_rede,
+                                epochs= 100,
+                                batch_size= 300)
+        resultados = cross_val_score(estimator= regressor,
+                                    X= previsores, y = preco_real,
+                                    cv = 2, scoring = 'neg_mean_absolute_error')
+
+        media = resultados.mean()
+        desvio = resultados.std()

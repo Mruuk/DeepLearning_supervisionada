@@ -1,0 +1,24 @@
+
+apagarmos os valores inconsistentes,
+que são aqueles registros com algum problema ou que teve alguma falha durante a captura dos dados
+
+# loc é do pandas, utilizado parar localizar determinados registros
+#ou registros com determinadas caracteristicas
+
+#i1 -> sendo inconsistencia, recebe os atributos price da base com a condição menor igual a 10
+        i1 = base.loc[base.price <= 10]
+#verificado inconsistencia de preços zerados
+
+#com base na media, poderia fazer uma alteração no preço,
+#buscar das fontes os valores de cada atributo/veiculo,
+#porém é uma base muito grande, recomendado a remoção das inconsistencias
+        base.price.mean()
+
+#a base recebe a base na condição maior que 10
+        base = base[base.price > 10]
+
+#verifica inconsistencia de valores altos, onde não se parece ser preços         
+        i2 = base.loc[base.price > 350000]
+
+#base recebe a base na condição de menores que 350000
+        base = base.loc[base.price < 350000]

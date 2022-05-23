@@ -1,0 +1,56 @@
+para uma base de dados com mais classes, é necessário transforma-las.
+a rede neural trabalha com valores numéricos para que possa fazer os cálculos matemáticos necessários
+devido isso é necessário a conversão de strings para inteiros
+
+    DOCUMENTAÇÃO -:
+
+        #importação prar a transformação automática para a representação
+            from keras.utils import np_utils
+
+        #importação da classe que vai transformar um atributo categórico para atributo numérico
+            from sklearn.preprocessing import LabelEncoder
+
+        #criando obj da classe            
+            labelencoder = LabelEncoder()
+
+        #a variavel recebe a classe transformada
+            classe = labelencoder.fit_transform(classe)
+
+        #são chamadas de variaveis do tipo dummy, quando é feita essa transformação
+            classe_dummy = np_utils.to_categorical(classe)
+
+        #representação 
+        # iris setosa       1 0 1
+        # iris virginica    0 1 0
+        # iris versicolor   0 0 1
+
+        #substitui no train_test_split(previsores,classe,test_size=0.25) => train_test_split(previsores,classe_dummy,test_size=0.25)
+            from sklearn.model_selection import train_test_split
+            previsores_treinamento, previsores_teste, classe_treinamento, classe_test = train_test_split(previsores, classe_dummy, test_size=0.25)
+
+
+===========================================================================================
+        #variavel recebe o método do keras para fazer a validação automática
+        # pega cada um dos registro e submete os pesos da rede neural e fará o comparativo com o correto 
+            resultado = classificador.evaluate(previsores_teste, classe_test)
+
+        #criar a matriz de confusao, basicamente repete o cod de cima,
+        # porém de forma mais manual, retorna um aprobabilidade para cada neurônio
+            previsoes = classificador.predict(previsores_teste)
+        
+        #converte para true e false
+            previsoes = (previsoes > 0.5)
+
+        #importação numpy 
+            import numpy as np
+
+        #transforma 0 0 1 => 2, 0 1 0 => 1, 1 0 0 => 0; para melhor leitura dos dados
+        # devido ao confusion_matrix não leiria na formatação anterior,
+        # necessário tanto parar classes qnto parar previsores
+        # variavel t criada, percorre cada um dos registros e gera a nova formatação
+            classe_teste2 = [np.argmax(t) for t in classe_test]
+            previsoes2 = [np.argmax(t) for t in previsoes]
+
+        #importação e a criação da matriz para melhor visualização dos dados, acertos e erros
+            from sklearn.metrics import confusion_matrix
+            matriz = confusion_matrix(previsoes2, classe_teste2)

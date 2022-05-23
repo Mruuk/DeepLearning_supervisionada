@@ -1,0 +1,31 @@
+
+
+
+#importações extras 
+            import pandas as pd
+            from keras.layers import Dense, Dropout, Activation, Input
+            from keras.models import Model
+
+            base = pd.read_csv('recursos/games.csv')
+
+# retirada de atributos não utilizados
+            base = base.drop('Other_Sales', axis=1)
+            base = base.drop('Global_Sales', axis=1)
+            base = base.drop('Developer', axis=1)
+
+# retirada de atributos onde tenha valores nan 
+# dropna é responsável pela retirada de valores nan da base de dados
+# axis = 0, é responsável por orientar o dropna que será uma retirada da linha
+# axis = 1, orienta a retirada da coluna
+            base = base.dropna(axis = 0)
+
+# retiramos inconsistencias             
+            base = base.loc[base['NA_Sales'] > 1]
+            base = base.loc[base['EU_Sales'] > 1]
+
+# temos valores repetidos 
+# devido isso vamos retirar esse atributo
+# porém salvaremos os dados, para utilizar em posteridade 
+            base['Name'].value_counts()
+            nome_jogos = base.Name
+            base = base.drop('Name', axis = 1)

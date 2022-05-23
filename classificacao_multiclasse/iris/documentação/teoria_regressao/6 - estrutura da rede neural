@@ -1,0 +1,35 @@
+
+chamamos de regressor, pois é um caso de regressão
+
+
+# criando a rede neural
+# mantem a mesma regra para determinar a quantidade de neurônios
+# total de atributos mais a saida dividido por dois -: (316 + 1)/2
+# relu, é recomendada para regressão também
+# como queremos determinar um valor do produto, temos apenas uma saida
+# na camada de saida teremos a função de ativação sendo linear, pois o objetivo é manter os valores
+# não queremos uma probabilidade, é necessário manter o memso valor de saida,
+# caso não coloque nenhum paramento, o default é o linear
+# o memso vale para o compile, mean_absolute_error, manterá os valores
+# e o fator absolute(abs) manterá o valor positivo -: -100 -> abs(-100)= 100
+# queremos que o mean_absolute_error, seja o mais baixo possivel,
+# ele mostrará o erro da rede tanto pra mais,
+# quanto pra menos -: valor_correto= 100, valor_mean= 50, valor previsor= 50, ou previsor= 150
+
+        regressor = Sequential()
+        regressor.add(Dense(units= 158, activation= 'relu', input_dim= 316))
+        regressor.add(Dense(units= 158, activation= 'relu'))
+        regressor.add(Dense(units= 1, activation= 'linear'))
+        regressor.compile(loss= 'mean_absolute_error', optimizer= 'adam',
+                        metrics=['mean_absolute_error'])
+
+# fit para começar o treinamento da rede, epochs se aumentar a tendência é melhorar o resultado
+# batch_size ta de 300, pois temos uma base de dados grande
+        regressor.fit(previsores, preco_real, batch_size= 300, epochs= 100)
+
+# fazendo as previsões
+        previsoes = regressor.predict(previsores)
+
+# monstrando media para analise        
+        preco_real.mean()
+        previsoes.mean()

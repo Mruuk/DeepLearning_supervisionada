@@ -1,0 +1,59 @@
+necessário entender cada um dos atributos e descobrir o que é necessário para o seu objetivo
+como queremos a previsão do preço, alguns atributos não tem sentido serem analisados
+escolha sempre atributos que tenham co-relação com o que deseja analisar
+faremos um tratamento na base de dados
+
+#importação do pandas
+        import pandas as pd
+
+#carrega a base de dados, instancia com um parâmetro encoding, devido a formatação da base
+        base = pd.read_csv('recursos/autos.csv', encoding = 'ISO-8859-1')
+
+#retirada de atributos desnecessários para análise, axis = 1; o valor 1 remove a coluna toda
+#drop é um recurso do pandas
+        base = base.drop('dateCrawled', axis = 1)
+        base = base.drop('dateCreated', axis = 1)
+        base = base.drop('nrOfPictures', axis = 1)
+        base = base.drop('postalCode', axis = 1)
+        base = base.drop('lastSeen', axis = 1)
+
+#verifica os valores de cada atributo, buscando a variabilidade
+        base['name'].value_counts()
+#remove as que podem dificultar na análise da rede neural para encontrar padrões       
+        base = base.drop('name', axis = 1)
+        base['seller'].value_counts()
+        base = base.drop('seller', axis = 1)
+        base['offerType'].value_counts()
+        base = base.drop('offerType', axis = 1)
+        base['price'].value_counts()
+        base['abtest'].value_counts()
+        base['vehicleType'].value_counts()
+        base['yearOfRegistration'].value_counts()
+        base['gearbox'].value_counts()
+        base['powerPS'].value_counts()
+        base['model'].value_counts()
+        base['kilometer'].value_counts()
+        base['monthOfRegistration'].value_counts()
+        base['fuelType'].value_counts()
+        base['brand'].value_counts()
+        base['notRepairedDamage'].value_counts()
+
+
+exemplo de variabilidade ruim para o algoritmo encontrar padrões -:
+
+        privat ------------ 371525
+        gewerblich -------- 3
+
+ou 
+
+        Ford_Fiesta -------------------------------------------- 657
+        BMW_318i ----------------------------------------------- 627
+        Opel_Corsa --------------------------------------------- 622
+        Volkswagen_Golf_1.4 ------------------------------------ 603
+        BMW_316i ----------------------------------------------- 523
+        ...
+        Audi_A4_Avant_Klima_Gruene_Plakette_TÜV_&AU_NEU_XENON ---- 1
+        Renault_clio_in_gold_450VB_!! ---------------------------- 1
+        Fiat_Doblo_1.6_Multijet ---------------------------------- 1
+        Renault_Laguna_1 ----------------------------------------- 1
+        BMW_M135i_vollausgestattet_NP_52.720____Euro ------------- 1

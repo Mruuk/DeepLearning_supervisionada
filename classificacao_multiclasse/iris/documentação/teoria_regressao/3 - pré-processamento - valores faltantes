@@ -1,0 +1,27 @@
+como trabalhar com valores faltantes, pegando os valores que mais se repetem na base de dados
+
+#loc para localizar e o recurso do pandas isnull,
+# nesse caso iremos localizar no atributo vehicleType registros nulos
+        base.loc[pd.isnull(base['vehicleType'])]
+
+#realizamos a contagem para identificar o valor que mais se repete,
+# para assim preencher os nulos com o mesmo        
+        base['vehicleType'].value_counts() # limousine
+        base.loc[pd.isnull(base['gearbox'])]
+        base['gearbox'].value_counts() # manuell
+        base.loc[pd.isnull(base['model'])]
+        base['model'].value_counts() # golf
+        base.loc[pd.isnull(base['fuelType'])]
+        base['fuelType'].value_counts() # benzin = gasolina
+        base.loc[pd.isnull(base['notRepairedDamage'])]
+        base['notRepairedDamage'].value_counts() # nein
+
+#criamos um dicionário com os valores cujo preencheremos os valores nulos
+        valores = {'vehicleType': 'limousine',
+                'gearbox': 'manuell',
+                'model': 'golf',
+                'fuelType': 'benzin',
+                'notRepairedDamage': 'nein'}
+
+# e utilizando mais um recurso do pandas incluiremos os valores
+        base = base.fillna(value = valores)

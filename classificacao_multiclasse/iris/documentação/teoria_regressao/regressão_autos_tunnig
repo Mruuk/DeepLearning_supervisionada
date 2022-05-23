@@ -1,0 +1,1 @@
+{activation: relu, batch_size: 300, epochs: 100, kernel_initializer: random_uniform, loss: mean_absolute_error, neurons: 158, optimizer: adam}, 2500.9529
