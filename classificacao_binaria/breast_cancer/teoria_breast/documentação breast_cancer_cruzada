@@ -1,0 +1,55 @@
+import tensorflow as tf
+import pandas as pd
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+
+#importação vamos usar o keara em conjunto com o scikit_learn, a biblioteca parar fazer a validação
+    from keras.wrappers.scikit_learn import KerasClassifier
+
+#importando o cross_val_score, no qual é feito a divisão da base de dados, a chamada validação cruzada
+    from sklearn.model_selection import cross_val_score
+
+
+previsores = pd.read_csv('recursos/entradas_breast.csv')
+classe = pd.read_csv('recursos/saidas_breast.csv')
+
+#função para se criar as camadas da rede neural
+    def criarRede():
+        classificador = Sequential()
+        classificador.add(Dense(units = 16, activation= 'relu', 
+                                kernel_initializer= 'random_uniform', input_dim = 30))
+        classificador.add(Dense(units = 16, activation= 'relu', 
+                                kernel_initializer= 'random_uniform'))
+        classificador.add(Dense(units= 1, activation='sigmoid'))
+        otimizador = tf.keras.optimizers.Adam(learning_rate = 0.001, decay = 0.0001, clipvalue = 0.5)
+        classificador.compile(optimizer= otimizador, loss = 'binary_crossentropy',
+                            metrics = ['binary_accuracy'])
+        return classificador
+
+#build_fn =: é responsavel por criar a rede neural
+    classificador = KerasClassifier(build_fn= criarRede,
+                                    epochs = 100,
+                                    batch_size = 10)
+
+#faz os testes cruzados
+#   estimator recebe a rede
+#   x =: indica quais os atributos previsores
+#   y =: recebe a classe como paramentro de comparação
+#   cv =: indica a quantidade de fragmentação terar o baconde dados, usualmente se divide em 10
+#   scoring =: como que quuer retornar os resultados
+resultados = cross_val_score(estimator= classificador,
+                             X= previsores, y=classe,
+                             cv= 10, scoring= 'accuracy')
+#tirar a media dos resultados,, conclui que o acerto da base de dados será o valor do mean
+media = resultados.mean()
+#tirar o desvio padrão, mostra se sua rede está viciada. quanto menor o valor melhor,
+#   ele pega a media e verifica o quão longe e perto os valores estão dela,
+#   a variação com relação a média.
+#   exemplo, uma rede pode viciar em um paramentro específico, como elefentes altos,
+#    se por acaso receber um elefante baixo, a rede por estar viciada em elefantes altos,
+#    ela não irá identificar como um elefante.
+#
+#   quanto maior o valor maior a tendência de ter overfitting na base de dados
+#   se adapta demais a base de treinamento
+desvio = resultados.std()
