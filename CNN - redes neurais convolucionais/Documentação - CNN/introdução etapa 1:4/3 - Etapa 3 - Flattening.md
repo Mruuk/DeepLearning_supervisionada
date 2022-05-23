@@ -1,0 +1,1 @@
+## vai pegar a matriz gerada do ultimo processo, pooling. vamos pegar o poooled feature map e transformar em um vetor para que possa ser aplicada a rede neural densa
